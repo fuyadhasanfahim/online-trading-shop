@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom';
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faChartLine,
@@ -45,55 +44,72 @@ const navItems = [
 ];
 
 export default function Navbar() {
-    return (
-        <div className="h-dvh w-full py-6 px-2 space-y-6 z-50">
-            <div className="text-center text-2xl font-semibold">
-                <Link to={'/'}>Online Trading Shop</Link>
-            </div>
+    const location = useLocation();
 
-            <nav className="">
-                <ul className="space-y-2 my-20">
+    return (
+        <div className="flex h-screen flex-col justify-between border-e bg-gray-800 text-gray-100">
+            <div className="px-4 py-6">
+                <div className="text-center text-2xl font-semibold">
+                    <Link to={'/'}>Online Trading Shop</Link>
+                </div>
+
+                <ul className="mt-6 space-y-1">
                     {navItems.map((item, index) => (
                         <li key={index}>
                             {item.ledgers ? (
-                                <Menu>
-                                    <MenuButton className="w-full text-left px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center justify-between">
-                                        <div className="flex items-center gap-2">
+                                <details className="group [&_summary::-webkit-details-marker]:hidden">
+                                    <summary
+                                        className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
+                                            item.ledgers.some((ledger) =>
+                                                location.pathname.includes(
+                                                    ledger.path,
+                                                ),
+                                            )
+                                                ? 'bg-gray-100 text-gray-700'
+                                                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                                        }`}
+                                    >
+                                        <span className="text-lg font-medium flex items-center gap-2">
                                             <FontAwesomeIcon icon={item.icon} />
                                             {item.title}
-                                        </div>
-                                        <FontAwesomeIcon icon={faChevronDown} />
-                                    </MenuButton>
-                                    <MenuItems className="mt-2 space-y-1">
+                                        </span>
+                                        <span className="shrink-0 transition duration-300 group-open:-rotate-180">
+                                            <FontAwesomeIcon
+                                                icon={faChevronDown}
+                                            />
+                                        </span>
+                                    </summary>
+                                    <ul className="mt-2 space-y-1 px-4">
                                         {item.ledgers.map(
                                             (ledger, ledgerIndex) => (
-                                                <MenuItem key={ledgerIndex}>
-                                                    {({ active }) => (
-                                                        <Link
-                                                            to={ledger.path}
-                                                            className={`px-4 py-2 rounded-lg transition flex items-center gap-2 ${
-                                                                active
-                                                                    ? 'bg-blue-500'
-                                                                    : 'bg-gray-700'
-                                                            }`}
-                                                        >
-                                                            <FontAwesomeIcon
-                                                                icon={
-                                                                    ledger.icon
-                                                                }
-                                                            />
-                                                            {ledger.title}
-                                                        </Link>
-                                                    )}
-                                                </MenuItem>
+                                                <li key={ledgerIndex}>
+                                                    <Link
+                                                        to={ledger.path}
+                                                        className={`rounded-lg px-4 py-2 text-lg font-medium flex items-center gap-2 ${
+                                                            location.pathname ===
+                                                            ledger.path
+                                                                ? 'bg-gray-100 text-gray-700'
+                                                                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                                                        }`}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={ledger.icon}
+                                                        />
+                                                        {ledger.title}
+                                                    </Link>
+                                                </li>
                                             ),
                                         )}
-                                    </MenuItems>
-                                </Menu>
+                                    </ul>
+                                </details>
                             ) : (
                                 <Link
                                     to={item.path}
-                                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center gap-2"
+                                    className={`rounded-lg px-4 py-2 text-lg font-medium flex items-center gap-2 ${
+                                        location.pathname === item.path
+                                            ? 'bg-gray-100 text-gray-700'
+                                            : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                                    }`}
                                 >
                                     <FontAwesomeIcon icon={item.icon} />
                                     {item.title}
@@ -102,11 +118,14 @@ export default function Navbar() {
                         </li>
                     ))}
                 </ul>
-            </nav>
-            <button className="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center gap-2 w-full">
-                <FontAwesomeIcon icon={faSignOut} />
-                Log Out
-            </button>
+            </div>
+
+            <div className="sticky inset-x-0 bottom-0 border-t border-gray-100">
+                <button className="flex items-center gap-2 bg-gray-800 p-4 hover:bg-gray-700 w-full justify-center">
+                    <FontAwesomeIcon icon={faSignOut} />
+                    Log Out
+                </button>
+            </div>
         </div>
     );
 }

@@ -15,3 +15,88 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+/* Printing */
+@media print {
+    body * {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        visibility: hidden;
+    }
+
+    #printSection,
+    #printSection * {
+        visibility: visible;
+    }
+
+    #printSection {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 20px;
+        padding: 20px;
+        background: #ffffff;
+        border: 1px solid #000;
+    }
+
+    #printSection h2,
+    #printSection h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0;
+    }
+
+    table th,
+    table td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: left;
+    }
+
+    table th {
+        background-color: #f2f2f2;
+    }
+
+    .no-print {
+        display: none;
+    }
+
+    .print-content {
+        width: 100%;
+    }
+
+    .flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .justify-between {
+        justify-content: space-between;
+    }
+
+    .items-center {
+        align-items: center;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .mt-5,
+    .mt-12 {
+        margin-top: 20px;
+    }
+
+    .w-full {
+        width: 100%;
+    }
+}
