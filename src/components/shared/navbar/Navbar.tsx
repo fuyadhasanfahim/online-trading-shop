@@ -59,15 +59,7 @@ export default function Navbar() {
                             {item.ledgers ? (
                                 <details className="group [&_summary::-webkit-details-marker]:hidden">
                                     <summary
-                                        className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
-                                            item.ledgers.some((ledger) =>
-                                                location.pathname.includes(
-                                                    ledger.path,
-                                                ),
-                                            )
-                                                ? 'bg-gray-100 text-gray-700'
-                                                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
-                                        }`}
+                                        className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700`}
                                     >
                                         <span className="text-lg font-medium flex items-center gap-2">
                                             <FontAwesomeIcon icon={item.icon} />
